@@ -1,4 +1,4 @@
-package com.N1muRa;
+package com.hospital;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
