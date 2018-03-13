@@ -1,4 +1,4 @@
-package com.hospital.service.implement;
+package com.hospital.service.impl;
 
 import com.hospital.service.TestService;
 import org.springframework.stereotype.Service;
