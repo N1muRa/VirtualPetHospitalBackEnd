@@ -1,7 +1,7 @@
 package com.hospital.dao.impl;
 
-import com.hospital.dao.UserDao;
-import com.hospital.entity.User;
+import com.hospital.dao.MedicineDao;
+import com.hospital.entity.Medicine;
 import org.hibernate.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -9,23 +9,23 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * Created by WangCheng on 2018/3/13.
+ * Created by WangCheng on 2018/3/19.
  */
 
 @Repository
-public class UserDaoImpl implements UserDao {
+public class MedicineDaoImpl implements MedicineDao {
 
     @Autowired
     private SessionFactory sessionFactory;
 
-    public Session getCurrentSession() {
+    private Session getCurrentSession() {
         return this.sessionFactory.openSession();
     }
 
-    public User load(Integer id) {
+    public Medicine load(Integer id) {
         Session session = getCurrentSession();
         try {
-            return (User) session.load(User.class, id);
+            return (Medicine) session.load(Medicine.class, id);
         } catch (HibernateException e) {
             e.printStackTrace();
         } finally {
@@ -34,10 +34,10 @@ public class UserDaoImpl implements UserDao {
         return null;
     }
 
-    public User get(Integer id) {
+    public Medicine get(Integer id) {
         Session session = getCurrentSession();
         try {
-            return (User) session.get(User.class, id);
+            return (Medicine) session.get(Medicine.class, id);
         } catch (HibernateException e) {
             e.printStackTrace();
         } finally {
@@ -46,15 +46,15 @@ public class UserDaoImpl implements UserDao {
         return null;
     }
 
-    public User getUserByName(String name) {
+    public Medicine getByName(String name) {
         Session session = getCurrentSession();
         Transaction transaction = session.beginTransaction();
-        User user = null;
+        Medicine medicine = null;
         try {
-            String hsql = "from User where user_name = ?";
+            String hsql = "from Medicine where medicine_name = ?";
             Query query = session.createQuery(hsql);
             query.setString(0, name);
-            user = (User) query.uniqueResult();
+            medicine = (Medicine) query.uniqueResult();
             transaction.commit();
         } catch (HibernateException e) {
             transaction.rollback();
@@ -62,17 +62,17 @@ public class UserDaoImpl implements UserDao {
         } finally {
             session.close();
         }
-        return user;
+        return medicine;
     }
 
-    public List<User> loadAll() {
+    public List<Medicine> loadAll() {
         Session session = getCurrentSession();
         Transaction transaction = session.beginTransaction();
-        List<User> users = null;
+        List<Medicine> medicines = null;
         try {
-            String hsql = "from User";
+            String hsql = "from Medicine";
             Query query = session.createQuery(hsql);
-            users = query.list();
+            medicines = query.list();
             transaction.commit();
         } catch (HibernateException e) {
             transaction.rollback();
@@ -80,17 +80,16 @@ public class UserDaoImpl implements UserDao {
         } finally {
             session.close();
         }
-        return users;
+        return medicines;
     }
 
-//    插入数据
-
-    public Integer save(User user) {
+//    插入
+    public Integer save(Medicine medicine) {
         Session session = getCurrentSession();
         Transaction transaction = session.beginTransaction();
         Integer res = -1;
         try {
-            res = (Integer) session.save(user);
+            res = (Integer) session.save(medicine);
             transaction.commit();
         } catch (HibernateException e) {
             transaction.rollback();
@@ -101,13 +100,12 @@ public class UserDaoImpl implements UserDao {
         return res;
     }
 
-//    更新数据
-
-    public void update(User user) {
+//    更新
+    public void update(Medicine medicine) {
         Session session = getCurrentSession();
         Transaction transaction = session.beginTransaction();
         try {
-            session.update(user);
+            session.update(medicine);
             transaction.commit();
         } catch (HibernateException e) {
             transaction.rollback();
@@ -117,15 +115,13 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
-
-//    删除数据
-
+//    删除
     public void delete(Integer id) {
         Session session = getCurrentSession();
         Transaction transaction = session.beginTransaction();
         try {
-            User user = (User) session.load(User.class, id);
-            session.delete(user);
+            Medicine medicine = (Medicine) session.load(Medicine.class, id);
+            session.delete(medicine);
             transaction.commit();
         } catch (HibernateException e) {
             transaction.rollback();
@@ -136,7 +132,6 @@ public class UserDaoImpl implements UserDao {
     }
 
 //    清理
-
     public void flush() {
         getCurrentSession().flush();
     }

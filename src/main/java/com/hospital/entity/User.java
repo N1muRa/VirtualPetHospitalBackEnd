@@ -9,9 +9,9 @@ import javax.persistence.*;
 @Entity
 public class User {
     private int id;
-    private String username;
-    private String password;
-    private Integer usertype;
+    private String userName;
+    private String userPwd;
+    private Integer userType;
 
     @Id
     @GeneratedValue
@@ -26,32 +26,32 @@ public class User {
 
     @Basic
     @Column(name = "user_name", nullable = false, length = 255)
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     @Basic
     @Column(name = "user_pwd", nullable = false, length = 255)
-    public String getPassword() {
-        return password;
+    public String getUserPwd() {
+        return userPwd;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setUserPwd(String userPwd) {
+        this.userPwd = userPwd;
     }
 
     @Basic
     @Column(name = "user_type", nullable = false)
-    public Integer getUsertype() {
-        return usertype;
+    public Integer getUserType() {
+        return userType;
     }
 
-    public void setUsertype(Integer usertype) {
-        this.usertype = usertype;
+    public void setUserType(Integer userType) {
+        this.userType = userType;
     }
 
     @Override
@@ -62,25 +62,19 @@ public class User {
         final User user = (User) o;
 
         if (user.getId() != getId()) return false;
-        if (!user.getUsername().equals(getUsername())) return false;
-        if (!user.getPassword().equals(getPassword())) return false;
-        if (!user.getUsertype().equals(getUsertype())) return false;
+        if (!user.getUserName().equals(getUserName())) return false;
+        if (!user.getUserPwd().equals(getUserPwd())) return false;
+        if (!user.getUserType().equals(getUserType())) return false;
 
         return true;
-//        if (id != user.id) return false;
-//        if (username != null ? !username.equals(user.username) : user.username != null) return false;
-//        if (password != null ? !password.equals(user.password) : user.password != null) return false;
-//        if (usertype != null ? !usertype.equals(user.usertype) : user.usertype != null) return false;
-//
-//        return true;
     }
 
     @Override
     public int hashCode() {
         int result = id;
-        result = 29 * result + (username != null ? username.hashCode() : 0);
-        result = 29 * result + (password != null ? password.hashCode() : 0);
-        result = 29 * result + (usertype != null ? usertype.hashCode() : 0);
+        result = 29 * result + (userName != null ? userName.hashCode() : 0);
+        result = 29 * result + (userPwd != null ? userPwd.hashCode() : 0);
+        result = 29 * result + (userType != null ? userType.hashCode() : 0);
         return result;
     }
 }

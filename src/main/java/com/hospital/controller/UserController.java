@@ -1,6 +1,7 @@
 package com.hospital.controller;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hospital.entity.User;
@@ -39,7 +40,7 @@ public class UserController {
     public String getUsers(@PathVariable String page){
         int _page = Integer.parseInt(page);
         List userList = userService.getAllUsers();
-        int pageCount = (userList.size() / 10) + 1;
+        int pageCount = ((userList.size() - 1) / 10) + 1;
         int fromIndex = (_page - 1) * 10;
         List<User> users = null;
         if (userList.size() > fromIndex){
@@ -87,16 +88,18 @@ public class UserController {
     }
 
 //    删除用户
-    @RequestMapping(value = "admin/user/{id}", method = RequestMethod.DELETE, produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "admin/user", method = RequestMethod.DELETE, produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public String deleteUser(@PathVariable String id) {
-        int _id = Integer.parseInt(id);
-        userService.deleteUser(_id);
+    public String deleteUser(@RequestBody User user) {
+        int id = user.getId();
+        userService.deleteUser(id);
         return "{\"result\":true}";
     }
 
-    @RequestMapping(value = "validate", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+//    认证用户登录信息
+    @RequestMapping(value = "validate", method = RequestMethod.POST)
     @ResponseBody
+    @JsonIgnoreProperties(ignoreUnknown=true)
     public Map<String, String> validate(@RequestBody Map map, HttpSession session) {
         BufferedReader in= null;
         String captcha =  "";
@@ -112,9 +115,9 @@ public class UserController {
         Map<String, String> result = new HashMap<String, String>();
         if (map.get("captcha").toString().equalsIgnoreCase(captcha) || captcha.equals("")) {  //忽略验证码大小写
             User u = userService.getUser(map.get("userName").toString());
-            if (u != null && u.getPassword().equals(map.get("userPwd").toString())) {
+            if (u != null && u.getUserPwd().equals(map.get("userPwd").toString())) {
                 result.put("isValidated", "true");
-                result.put("userType", u.getUsertype().toString());
+                result.put("userType", u.getUserType().toString());
             } else {
                 result.put("isValidated", "false");
                 result.put("err", "填写信息错误");
