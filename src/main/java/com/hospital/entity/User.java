@@ -69,6 +69,7 @@ public class User {
         return true;
     }
 
+
     @Override
     public int hashCode() {
         int result = id;

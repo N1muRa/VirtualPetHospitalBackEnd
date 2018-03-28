@@ -9,3 +9,4 @@ VirtualPetHospital Project BackEnd
 * Entity类添加@Entity注解
 * Entity类方法@Column注解下name需与数据库对应字段名相同
 * @RequestMapping中设置produces="application/json"可将返回值定为json类型
+* 根据数据库账户是否使用SSL连接设置config.properties中jdbc.url最后使用添加useSSL=true或false

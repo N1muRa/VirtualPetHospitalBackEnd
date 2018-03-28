@@ -93,7 +93,8 @@ public class UserController {
     public String deleteUser(@RequestBody User user) {
         int id = user.getId();
         userService.deleteUser(id);
-        return "{\"result\":true}";
+        return "{\"" +
+                "\":true}";
     }
 
 //    认证用户登录信息
