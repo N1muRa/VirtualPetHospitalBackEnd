@@ -34,5 +34,6 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
-/src/main/resource/config.properties
-/src/main/resource/log4j.properties
+#/src/main/resource/config.properties
+#/src/main/resource/log4j.properties
+.DS_Store
