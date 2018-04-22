@@ -41,12 +41,26 @@ public class StaffController {
                 substaffs = staffs.subList(fromIndex, staffs.size());
             }
         }
-
+        class templateInfo {
+            Integer id;
+            String staffName;
+            String title;
+            Integer roomId;
+        }
+        List<templateInfo> result = new ArrayList<templateInfo>();
+        for (Staff staff : substaffs) {
+            templateInfo tempInfo = new templateInfo();//必须放在循环内
+            tempInfo.id = staff.getId();
+            tempInfo.staffName = staff.getStaffName();
+            tempInfo.title = staff.getTitle();
+            tempInfo.roomId = staff.getRoomId();
+            result.add(tempInfo);
+        }
         String json = null;
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
         try {
-            json = objectMapper.writeValueAsString(substaffs);
+            json = objectMapper.writeValueAsString(result);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

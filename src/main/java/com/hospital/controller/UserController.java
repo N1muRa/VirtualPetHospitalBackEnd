@@ -18,6 +18,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,11 +52,24 @@ public class UserController {
                 users = userList.subList(fromIndex, userList.size());
             }
         }
+        class templateInfo {
+            Integer id;
+            String userName;
+            Integer userType;
+        }
+        List<templateInfo> result = new ArrayList<templateInfo>();
+        for (User user : users) {
+            templateInfo tempInfo = new templateInfo();//必须放在循环内
+            tempInfo.id = user.getId();
+            tempInfo.userName = user.getUserName();
+            tempInfo.userType = user.getUserType();
+            result.add(tempInfo);
+        }
         String json = null;
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
         try {
-            json = objectMapper.writeValueAsString(users);
+            json = objectMapper.writeValueAsString(result);
         } catch (JsonProcessingException e) {
             log.error(e);
             e.printStackTrace();

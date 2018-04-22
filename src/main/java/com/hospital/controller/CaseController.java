@@ -45,12 +45,30 @@ public class CaseController {
                 subcases = cases.subList(fromIndex, cases.size());
             }
         }
-
+        class templateInfo {
+            Integer id;
+            String caseName;
+            CaseResource symptom;
+            CaseResource exam;
+            CaseResource result;
+            CaseResource method;
+        }
+        List<templateInfo> result = new ArrayList<templateInfo>();
+        for (CaseEntity c : subcases) {
+            templateInfo tempInfo = new templateInfo();//必须放在循环内
+            tempInfo.id = c.getId();
+            tempInfo.caseName = c.getCaseName();
+            tempInfo.symptom = caseResourceService.getById(c.getSymptom());
+            tempInfo.exam = caseResourceService.getById(c.getExam());
+            tempInfo.result = caseResourceService.getById(c.getResult());
+            tempInfo.method = caseResourceService.getById(c.getMethod());
+            result.add(tempInfo);
+        }
         String json = null;
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
         try {
-            json = objectMapper.writeValueAsString(subcases);
+            json = objectMapper.writeValueAsString(result);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

@@ -38,27 +38,27 @@ public class RoleController {
                 subroles = roles.subList(fromIndex, roles.size());
             }
         }
-//        class templateInfo {
-//            Integer id;
-//            List <Integer> roomAccess= new ArrayList<Integer>();
-//        }
-//        List<templateInfo> result = new ArrayList<templateInfo>();
-//        for (Role role : subroles) {
-//            templateInfo tempInfo = new templateInfo();//必须放在循环内
-//            tempInfo.id = role.getId();
-//
-//
-//            String [] arr_roomAccess = role.getRoomAccess().split(" ");
-//            for(String temp :arr_roomAccess){
-//                tempInfo.roomAccess.add(Integer.valueOf(temp));
-//            }
-//            result.add(tempInfo);
-//        }
+        class templateInfo {
+            Integer id;
+            List <Integer> roomAccess= new ArrayList<Integer>();
+        }
+        List<templateInfo> result = new ArrayList<templateInfo>();
+        for (Role role : subroles) {
+            templateInfo tempInfo = new templateInfo();//必须放在循环内
+            tempInfo.id = role.getId();
+
+
+            String [] arr_roomAccess = role.getRoomAccess().split(" ");
+            for(String temp :arr_roomAccess){
+                tempInfo.roomAccess.add(Integer.valueOf(temp));
+            }
+            result.add(tempInfo);
+        }
         String json = null;
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
         try {
-            json = objectMapper.writeValueAsString(subroles);
+            json = objectMapper.writeValueAsString(result);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

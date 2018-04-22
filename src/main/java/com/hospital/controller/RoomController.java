@@ -40,11 +40,22 @@ public class RoomController {
                 subrooms = rooms.subList(fromIndex, rooms.size());
             }
         }
+        class templateInfo {
+            Integer id;
+            String roomName;
+        }
+        List<templateInfo> result = new ArrayList<templateInfo>();
+        for (Room room : subrooms) {
+            templateInfo tempInfo = new templateInfo();//必须放在循环内
+            tempInfo.id = room.getId();
+            tempInfo.roomName = room.getRoomName();
+            result.add(tempInfo);
+        }
         String json = null;
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
         try {
-            json = objectMapper.writeValueAsString(subrooms);
+            json = objectMapper.writeValueAsString(result);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

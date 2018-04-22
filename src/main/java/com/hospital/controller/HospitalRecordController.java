@@ -42,11 +42,28 @@ public class HospitalRecordController {
                 subhospitalRecords = hospitalRecords.subList(fromIndex, hospitalRecords.size());
             }
         }
+        class templateInfo {
+            Integer id;
+            String patient;
+            Date startTime;
+            Date endTime;
+            String description;
+        }
+        List<templateInfo> result = new ArrayList<templateInfo>();
+        for (HospitalRecord hospitalRecord : subhospitalRecords) {
+            templateInfo tempInfo = new templateInfo();//必须放在循环内
+            tempInfo.id = hospitalRecord.getId();
+            tempInfo.patient = hospitalRecord.getPatient();
+            tempInfo.startTime = hospitalRecord.getStartTime();
+            tempInfo.endTime = hospitalRecord.getEndTime();
+            tempInfo.description = hospitalRecord.getDescription();
+            result.add(tempInfo);
+        }
         String json = null;
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
         try {
-            json = objectMapper.writeValueAsString(subhospitalRecords);
+            json = objectMapper.writeValueAsString(result);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

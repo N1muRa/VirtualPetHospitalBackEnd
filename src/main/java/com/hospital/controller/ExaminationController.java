@@ -41,11 +41,26 @@ public class ExaminationController {
                 subexaminations = examinations.subList(fromIndex, examinations.size());
             }
         }
+        class templateInfo {
+            Integer id;
+            String examinationName;
+            Float examinationPrice;
+            String description;
+        }
+        List<templateInfo> result = new ArrayList<templateInfo>();
+        for (Examination examination : subexaminations) {
+            templateInfo tempInfo = new templateInfo();//必须放在循环内
+            tempInfo.id = examination.getId();
+            tempInfo.examinationName = examination.getExaminationName();
+            tempInfo.examinationPrice = examination.getExaminationPrice();
+            tempInfo.description = examination.getDescription();
+            result.add(tempInfo);
+        }
         String json = null;
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
         try {
-            json = objectMapper.writeValueAsString(subexaminations);
+            json = objectMapper.writeValueAsString(result);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

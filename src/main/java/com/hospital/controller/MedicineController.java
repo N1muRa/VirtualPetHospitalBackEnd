@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,11 +44,28 @@ public class MedicineController {
                 subMedicines = medicines.subList(fromIndex, medicines.size());
             }
         }
+        class templateInfo {
+            Integer id;
+            String medicineName;
+            Double medicinePrice;
+            Integer medicineType;
+            String description;
+        }
+        List<templateInfo> result = new ArrayList<templateInfo>();
+        for (Medicine medicine : subMedicines) {
+            templateInfo tempInfo = new templateInfo();
+            tempInfo.id = medicine.getId();
+            tempInfo.medicineName = medicine.getMedicineName();
+            tempInfo.medicinePrice = medicine.getMedicinePrice();
+            tempInfo.medicineType = medicine.getMedicineType();
+            tempInfo.description = medicine.getDescription();
+            result.add(tempInfo);
+        }
         String json = null;
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
         try {
-            json = objectMapper.writeValueAsString(subMedicines);
+            json = objectMapper.writeValueAsString(result);
         } catch (JsonProcessingException e) {
             log.error(e);
             e.printStackTrace();

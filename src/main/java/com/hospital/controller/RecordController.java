@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,11 +44,30 @@ public class RecordController {
                 records = recordList.subList(fromIndex, recordList.size());
             }
         }
+        class templateInfo {
+            Integer id;
+            Date time;
+            String patient;
+            String petType;
+            String description;
+            Float price;
+        }
+        List<templateInfo> result = new ArrayList<templateInfo>();
+        for (Record record : records) {
+            templateInfo tempInfo = new templateInfo();//必须放在循环内
+            tempInfo.id = record.getId();
+            tempInfo.time = record.getTime();
+            tempInfo.patient = record.getPatient();
+            tempInfo.petType = record.getPetType();
+            tempInfo.description = record.getDescription();
+            tempInfo.price = record.getPrice();
+            result.add(tempInfo);
+        }
         String json = null;
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
         try {
-            json = objectMapper.writeValueAsString(records);
+            json = objectMapper.writeValueAsString(result);
         } catch (JsonProcessingException e) {
             log.error(e);
             e.printStackTrace();
